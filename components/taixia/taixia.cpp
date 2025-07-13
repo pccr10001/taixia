@@ -11,7 +11,7 @@ static const uint8_t RESPONSE_LENGTH = 255;
   void TaiXia::dump_config() {
     ESP_LOGCONFIG(TAG, "TaiXIA:");
     ESP_LOGCONFIG(TAG, "    SA_ID: %x", this->sa_id_);
-    check_uart_settings(9600, 2);
+    check_uart_settings(9600);
   }
 
   // ---=== Calc XOR ===---
@@ -427,9 +427,6 @@ static const uint8_t RESPONSE_LENGTH = 255;
 
   bool TaiXia::send(uint8_t packet_length, uint8_t data_type, uint8_t sa_id, uint8_t service_id, uint16_t data) {
     uint8_t frame[255];
-    if(service_id == SERVICE_ID_READ_STATUS){
-      return true;
-    }
 
     if (this->protocol_ != data_type)
       data_type = this->protocol_;
@@ -447,6 +444,7 @@ static const uint8_t RESPONSE_LENGTH = 255;
       frame[4] = data >> 0;
       auto crc = this->checksum(frame, 5);
       frame[5] =  crc;
+      frame[6] = 0x00;
     }
 
     this->write_array(frame, packet_length);
