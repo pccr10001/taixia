@@ -427,6 +427,9 @@ static const uint8_t RESPONSE_LENGTH = 255;
 
   bool TaiXia::send(uint8_t packet_length, uint8_t data_type, uint8_t sa_id, uint8_t service_id, uint16_t data) {
     uint8_t frame[255];
+    if(service_id == SERVICE_ID_READ_STATUS){
+      return true;
+    }
 
     if (this->protocol_ != data_type)
       data_type = this->protocol_;
