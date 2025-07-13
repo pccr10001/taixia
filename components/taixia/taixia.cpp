@@ -435,7 +435,6 @@ static const uint8_t RESPONSE_LENGTH = 255;
       frame[0] = packet_length;
       frame[1] = sa_id;
       frame[2] = service_id;
-      frame[3] = 0x00;
       // ....
     } else {
       frame[0] = packet_length;
@@ -445,9 +444,8 @@ static const uint8_t RESPONSE_LENGTH = 255;
       frame[4] = data >> 0;
       auto crc = this->checksum(frame, 5);
       frame[5] =  crc;
-      frame[6] = 0x00;
     }
-
+    frame[packet_length] = '\n';
     this->write_array(frame, packet_length+1);
     this->flush();
     if (this->response_time_ != 0) {
