@@ -11,7 +11,7 @@ static const uint8_t RESPONSE_LENGTH = 255;
   void TaiXia::dump_config() {
     ESP_LOGCONFIG(TAG, "TaiXIA:");
     ESP_LOGCONFIG(TAG, "    SA_ID: %x", this->sa_id_);
-    check_uart_settings(9600);
+    check_uart_settings(9600, 2);
   }
 
   // ---=== Calc XOR ===---
